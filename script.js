@@ -1,5 +1,6 @@
 var input = document.querySelector('input');
 var search = document.querySelector('button');
+var results = document.querySelector('#results');
 
 search.addEventListener('click', function() {
 	if (input.value) {
@@ -38,16 +39,6 @@ function searchWikipedia(query) {
 	    // We reached our target server, but it returned an error
 	    console.log('error!');
 	  }
-	};
-
-	request.onerror = function() {
-	  // There was a connection error of some sort
-	  console.log('connection error!');
-	};
-
-	request.send();
-}
-
 	};
 
 	request.onerror = function() {
