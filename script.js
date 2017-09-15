@@ -39,3 +39,17 @@ function searchWikipedia(query) {
 	request.send();
 }
 
+	};
+
+	request.onerror = function() {
+	  // There was a connection error of some sort
+	  console.log('connection error!');
+	};
+
+	request.send();
+}
+
+
+
+// Continue url:
+// https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&srsearch=Richard+Feynman&sroffset=10&continue=-||
