@@ -21,10 +21,19 @@ function searchWikipedia(query) {
 	request.open('GET', url, true);
 
 	request.onload = function() {
-	  if (request.status >= 200 && request.status < 400) {
+	  if (this.status >= 200 && this.status < 400) {
 	    // Success!
-	    var resp = request.responseText;
-	  	console.log('success! resp: ', resp);
+			let data = JSON.parse(this.response);
+			let ul = document.createElement("ul");
+			results.appendChild(ul);
+			data.query.search.forEach(function displayData (page) {
+				let li = document.createElement("li");  
+				li.innerHTML = `
+					<p>${page.title}</p>
+					<p>${page.snippet}</p>
+				`;
+				ul.appendChild(li);
+			});
 	  } else {
 	    // We reached our target server, but it returned an error
 	    console.log('error!');
