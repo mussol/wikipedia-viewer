@@ -9,9 +9,9 @@ search.addEventListener('click', function() {
 });
 
 input.addEventListener('keypress', function(e) {
-	if (e.keyCode === 13 && e.value) {
+	if (e.keyCode === 13 && input.value) {
 		console.log('just pressed enter key with valid search query');
-		searchWikipedia(e.value);
+		searchWikipedia(input.value);
 	};
 });
 
