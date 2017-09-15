@@ -17,7 +17,7 @@ input.addEventListener('keypress', function(e) {
 
 function searchWikipedia(query) {
 	var request = new XMLHttpRequest();
-	var url = `https://en.wikipedia.org/w/api.php?format=json&action=query&origin=*&generator=search&gsrnamespace=0&gsrlimit=10&prop=pageimages|extracts&pilimit=max&exintro&explaintext&exsentences=1&exlimit=max&gsrsearch=${query}`;
+	var url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&srsearch=${query}`;
 	request.open('GET', url, true);
 
 	request.onload = function() {
