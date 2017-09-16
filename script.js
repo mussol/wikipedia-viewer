@@ -1,24 +1,39 @@
 var input = document.querySelector('input');
-var search = document.querySelector('button');
+var search = document.querySelector('#search');
 var results = document.querySelector('#results');
+var loadMore = document.querySelector('#loadMore');
+
+var query = '';
 
 search.addEventListener('click', function() {
 	if (input.value) {
-		console.log('just clicked on search button');
-		searchWikipedia(input.value);
+		query = input.value;
+		searchWikipedia(query);
 	}
 });
 
 input.addEventListener('keypress', function(e) {
 	if (e.keyCode === 13 && input.value) {
-		console.log('just pressed enter key with valid search query');
-		searchWikipedia(input.value);
+		query = input.value;
+		searchWikipedia(query);
 	};
 });
 
-function searchWikipedia(query) {
+// setting offset value for search results to be fetched 10 at a time from the API request
+var sroffset = 0;
+
+loadMore.addEventListener('click', function() {
+	// each time 'loadMore' is clicked it'll fetch the 10 next search results
+	sroffset += 10;
+	// build 'continue' postfix to be added to API request
+	let nextResults = `&sroffset=${sroffset}&continue=-||`;
+	searchWikipedia(query, nextResults);
+});
+
+function searchWikipedia(query, nextResults = '') {
 	var request = new XMLHttpRequest();
-	var url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&srsearch=${query}`;
+	var url = `https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&srsearch=${query}${nextResults}`;
+	
 	request.open('GET', url, true);
 
 	request.onload = function() {
@@ -30,7 +45,7 @@ function searchWikipedia(query) {
 			data.query.search.forEach(function displayData (page) {
 				let li = document.createElement("li");  
 				li.innerHTML = `
-					<p>${page.title}</p>
+					<p><a href="https://en.wikipedia.org/?curid=${page.pageid}" target="_blank">${page.title}</a></p>
 					<p>${page.snippet}</p>
 				`;
 				ul.appendChild(li);
@@ -48,8 +63,3 @@ function searchWikipedia(query) {
 
 	request.send();
 }
-
-
-
-// Continue url:
-// https://en.wikipedia.org/w/api.php?action=query&format=json&origin=*&list=search&srsearch=Richard+Feynman&sroffset=10&continue=-||
